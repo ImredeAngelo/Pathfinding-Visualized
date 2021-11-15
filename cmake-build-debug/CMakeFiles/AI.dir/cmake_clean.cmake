@@ -8,6 +8,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/AI.dir/src/Engine/Window.cpp.obj"
   "CMakeFiles/AI.dir/src/Math/Math.cpp.obj"
   "CMakeFiles/AI.dir/src/Pathfinding/AStar.cpp.obj"
+  "CMakeFiles/AI.dir/src/Pathfinding/Grid.cpp.obj"
   "CMakeFiles/AI.dir/src/main.cpp.obj"
 )
 

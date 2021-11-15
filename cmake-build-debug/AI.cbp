@@ -115,6 +115,12 @@
 		<Unit filename="E:/AI/src/Pathfinding/AStar.h">
 			<Option target="AI"/>
 		</Unit>
+		<Unit filename="E:/AI/src/Pathfinding/Grid.cpp">
+			<Option target="AI"/>
+		</Unit>
+		<Unit filename="E:/AI/src/Pathfinding/Grid.h">
+			<Option target="AI"/>
+		</Unit>
 		<Unit filename="E:/AI/src/main.cpp">
 			<Option target="AI"/>
 		</Unit>

@@ -4,7 +4,7 @@
 #define HCOST_D  10
 #define HCOST_DD 14
 
-AStar::Node **AStar::GetPath(Node *start, Node *end, Heuristic h) {
+AStar::Node *AStar::GetPath(Node *start, Node *end, Heuristic h) {
     return nullptr;
 }
 

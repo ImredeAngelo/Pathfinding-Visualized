@@ -6,20 +6,6 @@
 
 #IncludeRegexTransform: 
 
-E:/AI/main.cpp
-iostream
--
-
-E:/AI/src/Engine/Window.cpp
-Window.h
-E:/AI/src/Engine/Window.h
-
-E:/AI/src/Engine/Window.h
-
-E:/AI/src/Math/Math.cpp
-Math.h
-E:/AI/src/Math/Math.h
-
 E:/AI/src/Math/Math.h
 
 E:/AI/src/Pathfinding/AStar.cpp

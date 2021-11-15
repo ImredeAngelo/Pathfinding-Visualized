@@ -5,9 +5,10 @@ namespace AStar {
         float x, y;
     };
 
-    typedef double (*Heuristic)(const Node &current, const Node &goal);
+    typedef float (*Heuristic)(const Node &current, const Node &goal);
 
-    Node *GetPath(const Node& grid, const Node &start, const Node &end, Heuristic h);
+    // const Node**& grid,
+    Node *GetPath(Node *start, Node *end, Heuristic h);
 
     /// In a real project one of these would be chosen and written inline in the algorithm.
     /// Heuristics explained at http://theory.stanford.edu/~amitp/GameProgramming/Heuristics.html
