@@ -1,10 +1,26 @@
-#ifndef AI_WINDOW_H
-#define AI_WINDOW_H
+#pragma once
 
+#include <string>
+#include <glad/glad.h>
 
-class Window {
+struct GLFWwindow;
 
+class Window
+{
+    GLFWwindow *window;
+
+    int width;
+    int height;
+
+    GLuint vertex_buffer, vertex_shader, fragment_shader, program;
+    GLint mvp_location, vpos_location, vcol_location;
+
+public:
+    Window(int height, int width, std::string&& title);
+    ~Window();
+
+    bool closed();
+    void update();
 };
 
-
-#endif //AI_WINDOW_H
+#pragma clang diagnostic pop

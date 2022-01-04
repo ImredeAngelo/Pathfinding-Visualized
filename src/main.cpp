@@ -1,12 +1,12 @@
 #include <iostream>
-#include "Pathfinding/AStar.h"
+#include "Engine/Window.h"
 
+int main(int c, char** argv) {
+    Window window{720, 1080, "Pathfinding"};
+    while (!window.closed()) {
+        // main loop
+        window.update();
+    }
 
-int main() {
-    using AStar::Node;
-
-    Node* path = AStar::GetPath(nullptr, nullptr, AStar::Heuristics::Diagonal);
-
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
+    return EXIT_SUCCESS;
 }
