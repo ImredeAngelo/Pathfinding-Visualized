@@ -1,10 +1,9 @@
-#include <iostream>
 #include "Engine/Window.h"
+#include <iostream>
 
 int main(int c, char** argv) {
-    Window window{720, 1080, "Pathfinding"};
+    Window window{1080, 1920, "Pathfinding"};
     while (!window.closed()) {
-        // main loop
         window.update();
     }
 

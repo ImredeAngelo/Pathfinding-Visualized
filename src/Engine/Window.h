@@ -1,19 +1,16 @@
 #pragma once
 
-#include <string>
-#include <glad/glad.h>
+#include <Engine/OpenGL/Context.h>
 
-struct GLFWwindow;
+#include <string>
 
 class Window
 {
-    GLFWwindow *window;
+    GLFWwindow* window;
+    OpenGL::Context* context;
 
     int width;
     int height;
-
-    GLuint vertex_buffer, vertex_shader, fragment_shader, program;
-    GLint mvp_location, vpos_location, vcol_location;
 
 public:
     Window(int height, int width, std::string&& title);
@@ -22,5 +19,3 @@ public:
     bool closed();
     void update();
 };
-
-#pragma clang diagnostic pop
