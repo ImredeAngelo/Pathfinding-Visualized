@@ -8,12 +8,13 @@ namespace OpenGL
     {
     public:
         Context(GLFWwindow* window);
+        ~Context();
 
         void makeQuad();
         void draw();
 
     private:
         GLFWwindow* window;
-        unsigned int buffer, program;
+        unsigned int program;
     };
 }

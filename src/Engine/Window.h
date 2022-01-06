@@ -13,6 +13,7 @@ class Window
     int height;
 
 public:
+    Window(std::string&& title);
     Window(int height, int width, std::string&& title);
     ~Window();
 

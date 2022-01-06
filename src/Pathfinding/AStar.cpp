@@ -1,5 +1,5 @@
 #include "AStar.h"
-#include "../Math/Math.h"
+#include "Math/Math.h"
 
 #define HCOST_D  10
 #define HCOST_DD 14

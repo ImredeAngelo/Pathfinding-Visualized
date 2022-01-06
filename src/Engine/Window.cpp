@@ -1,8 +1,8 @@
 #include "Window.h"
 #include <GLFW/glfw3.h>
 
-Window::Window(int height, int width, std::string&& title)
-    : width(width), height(height), window(nullptr)
+Window::Window(int width, int height, std::string&& title)
+    : width(width), height(height)
 {
     if(!glfwInit())
         exit(EXIT_FAILURE);
@@ -10,6 +10,28 @@ Window::Window(int height, int width, std::string&& title)
     window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
 
     if(!window)
+    {
+        glfwTerminate();
+        exit(EXIT_FAILURE);
+    }
+
+    context = new OpenGL::Context(window);
+    context->makeQuad();
+}
+
+Window::Window(std::string&& title)
+{
+    // TODO
+    if (!glfwInit())
+        exit(EXIT_FAILURE);
+
+    int xpos, ypos;
+    
+    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+    glfwGetMonitorWorkarea(monitor, &xpos, &ypos, &width, &height);
+    window = glfwCreateWindow(width, height, title.c_str(), monitor, nullptr);
+
+    if (!window)
     {
         glfwTerminate();
         exit(EXIT_FAILURE);
@@ -33,7 +55,6 @@ bool Window::closed()
 void Window::update()
 {
     // TODO: Only draw if grid is updated!
-    // context->swapBuffers();
     context->draw();
     glfwPollEvents();
 }

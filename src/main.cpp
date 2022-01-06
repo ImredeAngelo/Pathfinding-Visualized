@@ -2,7 +2,7 @@
 #include <iostream>
 
 int main(int c, char** argv) {
-    Window window{1080, 1920, "Pathfinding"};
+    Window window{1920, 1080, "Pathfinding"};
     while (!window.closed()) {
         window.update();
     }
