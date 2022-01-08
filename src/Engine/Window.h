@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Engine/OpenGL/Context.h>
+#include "OpenGL/Context.h"
 
 #include <string>
 
@@ -13,7 +13,7 @@ class Window
     int height;
 
 public:
-    Window(std::string&& title);
+    explicit Window(std::string&& title);
     Window(int height, int width, std::string&& title);
     ~Window();
 
