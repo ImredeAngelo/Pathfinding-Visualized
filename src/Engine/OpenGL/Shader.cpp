@@ -30,8 +30,6 @@ namespace OpenGL {
 
     void Shader::setUniform4f(const std::string& name, float a, float b, float c, float d) const
     {
-        bind();
-
         int location = glGetUniformLocation(program, name.c_str());
         if (location != -1)
         {
@@ -41,8 +39,6 @@ namespace OpenGL {
 
     void Shader::setUniformMat4(const std::string& name, const glm::mat4 matrix) const
     {
-        glUseProgram(program);
-
         int location = glGetUniformLocation(program, name.c_str());
         if (location != -1)
         {

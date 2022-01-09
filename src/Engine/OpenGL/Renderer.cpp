@@ -5,7 +5,6 @@ void OpenGL::Renderer::draw(const OpenGL::VertexArray *vertexArray, const OpenGL
 {
     shader->bind();
     vertexArray->bind();
-//    indexBuffer->bind();
 
     // TODO: GL_QUADS
     glDrawElements(GL_TRIANGLES, indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Engine/Camera.h>
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "VertexArray.h"
@@ -16,8 +17,9 @@ namespace OpenGL {
         explicit Context(GLFWwindow* window);
         ~Context();
 
+        void draw(Camera& camera);
         void makeQuad();
-        void draw();
+        void makeGrid(unsigned int n, float size);
 
     private:
         GLFWwindow* window;

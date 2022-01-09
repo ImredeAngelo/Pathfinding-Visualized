@@ -1,5 +1,4 @@
 #include "Context.h"
-#include "Vertex.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -10,6 +9,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <Engine/Vertex.h>
 
 namespace OpenGL {
 
@@ -30,7 +30,7 @@ namespace OpenGL {
 	    delete shader;
 	}
 
-	void Context::draw()
+	void Context::draw(Camera& camera)
 	{
 		renderer.clear();
 
@@ -38,50 +38,61 @@ namespace OpenGL {
 		int width, height;
 		glfwGetFramebufferSize(window, &width, &height);
 		glViewport(0, 0, width, height);
+		camera.setProjection(width, height);
 
-        // Orthographic Camera
-        // TODO: Recalculate on window scale event!
-        glm::mat4 projection = glm::ortho(0.0f, (float)width, 0.0f, (float)height, -1.0f, 1.0f);
-        shader->setUniformMat4("u_MVP", projection);
-
-		// Render
+		// TODO: Only update when camera moves?
+		glm::mat4 model = glm::translate(glm::vec3(100, 100, 0));
+		shader->setUniformMat4("u_MVP", camera.getViewMatrix() * model);
 		renderer.draw(va, ib, shader);
+
 		glfwSwapBuffers(window);
 	}
 
 	void Context::makeQuad()
 	{
 		Vertex positions[] = {
-			{ 100.0f, 100.0f },
-			{ 200.0f, 100.0f },
-			{ 200.0f, 200.0f },
-			{ 100.0f, 200.0f }
+			{ -50.0f, -50.0f, 0xFFFFFF },
+			{  50.0f, -50.0f, 0xFFFFFF },
+			{  50.0f,  50.0f, 0xFFFFFF },
+			{ -50.0f,  50.0f, 0xFFFFFF },
+			{  50.0f, -50.0f, 0xCD7F32 },
+			{ 150.0f, -50.0f, 0xCD7F32 },
+			{ 150.0f,  50.0f, 0xCD7F32 },
+			{  50.0f,  50.0f, 0xCD7F32 },
 		};
 
 		unsigned int indices[] = {
 			0, 1, 2,
 			2, 3, 0,
+			4, 5, 6,
+			6, 7, 4,
 		};
 
 		// TODO: Only use one VAO in program
 		va = new VertexArray();
-		vb = new VertexBuffer(positions, 4 * sizeof(Vertex));
+		vb = new VertexBuffer(positions, 8 * sizeof(Vertex));
 
 		VertexBufferLayout layout;
 		layout.push<float>(2);
+		layout.push<float>(4);
 		va->addBuffer(vb, layout);
 
-		ib = new IndexBuffer(indices, 6);
+		ib = new IndexBuffer(indices, 12);
 
 		// Load shaders
         shader = new Shader("basic");
-        shader->setUniformColor4f("u_Color", 0xFF7F50);
+		shader->bind();
+//		shader->setUniformColor4f("u_Color", 0xCD7F32);
 
         // Clean-up
-		va->unbind();
-
-		glUseProgram(0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+//      shader->unbind();
+//      va->unbind();
+//		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
+
+	void Context::makeGrid(unsigned int n, float size)
+	{
+		// make n x n grid of quads
+	}
+
 }
