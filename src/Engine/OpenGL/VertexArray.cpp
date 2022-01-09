@@ -31,8 +31,7 @@ namespace OpenGL {
         }
     }
 
-    void VertexArray::bind()
-    {
+    void VertexArray::bind() const {
         glBindVertexArray(rendererID);
     }
 

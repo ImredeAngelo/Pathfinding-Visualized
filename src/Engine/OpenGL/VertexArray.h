@@ -13,7 +13,7 @@ namespace OpenGL {
         ~VertexArray();
 
         void addBuffer(const VertexBuffer*, const VertexBufferLayout&);
-        void bind();
+        void bind() const;
         void unbind();
 
     private:

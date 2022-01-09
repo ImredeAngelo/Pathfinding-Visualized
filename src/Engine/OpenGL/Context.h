@@ -3,6 +3,8 @@
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "VertexArray.h"
+#include "Shader.h"
+#include "Renderer.h"
 
 struct GLFWwindow;
 
@@ -19,10 +21,11 @@ namespace OpenGL {
 
     private:
         GLFWwindow* window;
+        Renderer renderer;
         VertexArray* va;
         VertexBuffer* vb;
         IndexBuffer* ib;
-        unsigned int program;
+        Shader* shader;
     };
 
 }

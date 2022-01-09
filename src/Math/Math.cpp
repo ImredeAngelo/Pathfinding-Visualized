@@ -5,8 +5,8 @@ float Math::InvSqr(float y) {
     long i;
     float x2 = y*0.5f;
 
-    i = *(long*)&y;             // "Evil bit level hack" aka. type punning float to integer
-    i = 0x5F3759DF - (i >> 1);  // "What the fuck" aka. approximation of log2(x)
+    i = *(long*)&y;             // "Evil bit level hack"    aka. type punning float to integer
+    i = 0x5F3759DF - (i >> 1);  // "What the fuck"          aka. linear approximation of log2(x)
     y = *(float*)&i;
 
     //Newton's method

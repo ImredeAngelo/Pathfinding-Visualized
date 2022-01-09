@@ -1,20 +1,20 @@
 #include "Context.h"
-#include "VertexBuffer.h"
 #include "Vertex.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtx/transform.hpp>
 
 #include <string>
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <Engine/OpenGL/Shaders.h>
 
 namespace OpenGL {
 
 	Context::Context(GLFWwindow* window)
-		: window(window), program(0)
+		: window(window)
 	{
 		glfwMakeContextCurrent(window);
 		gladLoadGL();
@@ -24,34 +24,38 @@ namespace OpenGL {
 
 	Context::~Context()
 	{
+		delete va;
 	    delete vb;
 	    delete ib;
-
-		glDeleteProgram(program);
+	    delete shader;
 	}
 
 	void Context::draw()
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
-        glUseProgram(program);
+		renderer.clear();
 
+		// Resize Window
 		int width, height;
 		glfwGetFramebufferSize(window, &width, &height);
 		glViewport(0, 0, width, height);
 
-        va->bind();
+        // Orthographic Camera
+        // TODO: Recalculate on window scale event!
+        glm::mat4 projection = glm::ortho(0.0f, (float)width, 0.0f, (float)height, -1.0f, 1.0f);
+        shader->setUniformMat4("u_MVP", projection);
 
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+		// Render
+		renderer.draw(va, ib, shader);
 		glfwSwapBuffers(window);
 	}
 
 	void Context::makeQuad()
 	{
 		Vertex positions[] = {
-			{ -0.5f, -0.5f },
-			{  0.5f, -0.5f },
-			{  0.5f,  0.5f },
-			{ -0.5f,  0.5f }
+			{ 100.0f, 100.0f },
+			{ 200.0f, 100.0f },
+			{ 200.0f, 200.0f },
+			{ 100.0f, 200.0f }
 		};
 
 		unsigned int indices[] = {
@@ -70,12 +74,10 @@ namespace OpenGL {
 		ib = new IndexBuffer(indices, 6);
 
 		// Load shaders
-        const std::string vertexShader = parseShader("res/shaders/basic.vert");
-        const std::string fragmentShader = parseShader("res/shaders/basic.frag");
-		program = createShader(vertexShader, fragmentShader);
-		// glUseProgram(program);
+        shader = new Shader("basic");
+        shader->setUniformColor4f("u_Color", 0xFF7F50);
 
-		// Clean-up
+        // Clean-up
 		va->unbind();
 
 		glUseProgram(0);
