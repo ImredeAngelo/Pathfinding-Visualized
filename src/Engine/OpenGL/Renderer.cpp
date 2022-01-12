@@ -1,9 +1,9 @@
 #include "Renderer.h"
 #include "Shader.h"
 #include <glad/glad.h>
-#include <Engine/Vertex.h>
 #include <glm/gtx/transform.hpp>
-#include <Engine/OpenGLHeaders.h>
+#include <Engine/OpenGL/OpenGLHeaders.h>
+#include <iostream>
 
 constexpr size_t maxQuads = 1000;
 constexpr size_t maxVertices = 4 * maxQuads;
@@ -15,15 +15,22 @@ OpenGL::Renderer::Renderer(const Window& window)
     gladLoadGL();
     glClearColor(HEX_COLOR(0x9400D3), 1.0f);
 
-    // TODO: Maybe use OOP for shader
+    // TODO: Maybe use OOP for shader if render is class OR make renderer procedural
     shader = Shader::fromFile("basic");
     Shader::bind(shader);
 
-    // VAO
-//    glGenVertexArrays(1, &va);
-//    glBindVertexArray(va);
-    va = new VertexArray();
-    va->bind();
+    // Buffers
+    glGenVertexArrays(1, &va);
+    glBindVertexArray(va);
+
+    glGenBuffers(1, &vb);
+    glBindBuffer(GL_ARRAY_BUFFER, vb);
+    glBufferData(GL_ARRAY_BUFFER, maxVertices * sizeof(Vertex), nullptr, GL_DYNAMIC_DRAW);
+
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)offsetof(Vertex, position));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)offsetof(Vertex, color));
 
     // Indices always follow the same pattern
     uint32_t indices[maxIndices];
@@ -40,23 +47,19 @@ OpenGL::Renderer::Renderer(const Window& window)
         indices[i+5] = offset + 0;
     }
 
-    ib = new IndexBuffer(indices, maxIndices);
-    vb = new VertexBuffer(maxVertices * sizeof(Vertex));
+    glGenBuffers(1, &ib);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ib);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, maxIndices * sizeof(unsigned int), indices, GL_STATIC_DRAW);
 
-    ib->bind();
-    vb->bind();
-
-    VertexBufferLayout layout;
-    layout.push<float>(2);
-    layout.push<float>(3);
-    va->addBuffer(vb, layout);
+    // Quad Buffer
+    buffer = new Vertex[maxVertices];
+    bufferPtr = buffer;
 }
 
 OpenGL::Renderer::~Renderer()
 {
-    delete va;
-    delete vb;
-    delete ib;
+    delete[] buffer;
+
     Shader::destroy(shader);
 }
 
@@ -67,12 +70,11 @@ void OpenGL::Renderer::beginFrame()
     // Set viewport
     int width, height;
     window.getFramebufferSize(width, height);
-    glViewport(0, 0, width, height);
     camera.setProjection(width, height);
+    glViewport(0, 0, width, height);
 
-    // Set MVP
     // TODO: Only update when camera moves?
-    glm::mat4 model = glm::translate(glm::vec3(100, 100, 0));
+//    glm::mat4 model = glm::translate(glm::vec3(100, 100, 0));
 //    shader.setUniformMat4("u_MVP", camera.getViewMatrix() * model);
 
     beginBatch();
@@ -80,6 +82,17 @@ void OpenGL::Renderer::beginFrame()
 
 void OpenGL::Renderer::endFrame()
 {
+    auto size = (uint8_t*)bufferPtr - (uint8_t*)buffer;
+
+    glBindVertexArray(va);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, size, buffer);
+
+    std::cout << "Drawing " << indexCount << " indices with size " << size << "\n\n";
+    for(int i = 0; i < indexCount/6*4; i++)
+    {
+        std::cout << "(" << buffer[i].position[0] << ", " << buffer[i].position[1] << ")\n";
+    }
+
     glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
 }
 
@@ -91,10 +104,27 @@ void OpenGL::Renderer::drawQuad(float x, float y, float size, unsigned int color
         beginBatch();
     }
 
-//    indexCount += 6;
+    bufferPtr->position = { x, y };
+    bufferPtr->color = { HEX_COLOR(color) };
+    bufferPtr++;
+
+    bufferPtr->position = { x + size, y };
+    bufferPtr->color = { HEX_COLOR(color) };
+    bufferPtr++;
+
+    bufferPtr->position = { x + size, y + size };
+    bufferPtr->color = { HEX_COLOR(color) };
+    bufferPtr++;
+
+    bufferPtr->position = { x, y + size };
+    bufferPtr->color = { HEX_COLOR(color) };
+    bufferPtr++;
+
+    indexCount += 6;
 }
 
 void OpenGL::Renderer::beginBatch()
 {
-    // Set base!
+    bufferPtr = buffer;
+    indexCount = 0;
 }

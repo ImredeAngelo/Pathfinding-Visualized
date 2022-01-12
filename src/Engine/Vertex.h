@@ -5,6 +5,8 @@ struct Vertex
     glm::vec2 position = {};
     glm::vec3 color = {};
 
+    Vertex() = default;
+
     Vertex(const glm::vec2& position, unsigned int color)
         : position(position), color({})
     {

@@ -2,7 +2,7 @@
 
 #include <Engine/Camera.h>
 #include <Engine/Window.h>
-#include "VertexArray.h"
+#include <Engine/Vertex.h>
 
 namespace OpenGL {
 
@@ -24,12 +24,12 @@ namespace OpenGL {
         const Window& window;
         Camera camera;
 
-        unsigned int indexCount;
+        unsigned int indexCount = 0;
 
-        VertexArray* va;
-        VertexBuffer* vb;
-        IndexBuffer* ib;
-        unsigned int shader;
+        Vertex* buffer = nullptr;
+        Vertex* bufferPtr = nullptr;
+
+        unsigned int va, vb, ib, shader;
 
         void beginBatch();
     };

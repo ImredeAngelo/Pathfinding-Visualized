@@ -9,7 +9,7 @@ int main(int c, char** argv) {
     while(!window.shouldClose())
     {
         renderer.beginFrame();
-        renderer.drawQuad(10, 10, 100, 0xFFAC1C);
+        renderer.drawQuad(-0.5f, -0.5f, 1.0f, 0xFFAC1C);
         renderer.endFrame();
         window.update();
     }
