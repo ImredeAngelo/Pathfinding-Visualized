@@ -24,7 +24,7 @@ Window::Window(unsigned int width, unsigned int height, const std::string& title
 
     glfwMakeContextCurrent(window);
 
-//    glfwSetKeyCallback(window, keyCallback);
+    registerKeyEvent(exitKeyCallback);
 }
 
 Window::~Window()
@@ -44,7 +44,19 @@ void Window::getFramebufferSize(int &width, int &height) const
     glfwGetFramebufferSize(window, &width, &height);
 }
 
+void Window::registerKeyEvent(GLFWkeyfun callback)
+{
+    // TODO: Check if this only callbacks to a single function
+    glfwSetKeyCallback(window, callback);
+}
+
 int Window::shouldClose()
 {
     return glfwWindowShouldClose(window);
+}
+
+void Window::exitKeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
+{
+    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, GLFW_TRUE);
 }

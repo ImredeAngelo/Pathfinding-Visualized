@@ -3,16 +3,13 @@
 #include <Engine/Window.h>
 
 int main(int c, char** argv) {
-//    Application application{1920, 1080, "Jump Point Search and Goal Bounding"};
-//    application.run();
-
     Window window{1920, 1080, "Jump Point Search and Goal Bounding"};
     OpenGL::Renderer renderer{window};
 
     while(!window.shouldClose())
     {
         renderer.beginFrame();
-        // draw quad
+        renderer.drawQuad(10, 10, 100, 0xFFAC1C);
         renderer.endFrame();
         window.update();
     }

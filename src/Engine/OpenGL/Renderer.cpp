@@ -1,4 +1,5 @@
 #include "Renderer.h"
+#include "Shader.h"
 #include <glad/glad.h>
 #include <Engine/Vertex.h>
 #include <glm/gtx/transform.hpp>
@@ -9,27 +10,30 @@ constexpr size_t maxVertices = 4 * maxQuads;
 constexpr size_t maxIndices = 6 * maxQuads;
 
 OpenGL::Renderer::Renderer(const Window& window)
-    : window(window) //, vb(sizeof(Vertex)), shader("basic")
+    : window(window)//, vb(sizeof(Vertex)), shader("basic")
 {
-    // Load OpenGL
     gladLoadGL();
     glClearColor(HEX_COLOR(0x9400D3), 1.0f);
 
-//    // Indices always follow the same pattern
-//    uint32_t indices[maxIndices];
-//    uint32_t offset = 0;
-//
-//    for(auto i = 0; i < maxIndices; i += 6, offset += 4)
-//    {
-//        indices[i+0] = offset + 0;
-//        indices[i+1] = offset + 1;
-//        indices[i+2] = offset + 2;
-//
-//        indices[i+3] = offset + 3;
-//        indices[i+4] = offset + 4;
-//        indices[i+5] = offset + 0;
-//    }
-//
+    // TODO: Maybe use OOP for shader
+    shader = Shader::fromFile("basic");
+    Shader::bind(shader);
+
+    // Indices always follow the same pattern
+    uint32_t indices[maxIndices];
+    uint32_t offset = 0;
+
+    for(auto i = 0; i < maxIndices; i += 6, offset += 4)
+    {
+        indices[i+0] = offset + 0;
+        indices[i+1] = offset + 1;
+        indices[i+2] = offset + 2;
+
+        indices[i+3] = offset + 3;
+        indices[i+4] = offset + 4;
+        indices[i+5] = offset + 0;
+    }
+
 //    ib = IndexBuffer(indices, maxIndices);
 //
 //    // Set layout
@@ -39,7 +43,10 @@ OpenGL::Renderer::Renderer(const Window& window)
 //    va.addBuffer(vb, layout);
 }
 
-OpenGL::Renderer::~Renderer() = default;
+OpenGL::Renderer::~Renderer()
+{
+    Shader::destroy(shader);
+}
 
 void OpenGL::Renderer::beginFrame()
 {

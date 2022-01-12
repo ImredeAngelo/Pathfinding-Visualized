@@ -3,7 +3,6 @@
 #include <Engine/Camera.h>
 #include <Engine/Window.h>
 #include "VertexArray.h"
-#include "Shader.h"
 
 namespace OpenGL {
 
@@ -28,7 +27,7 @@ namespace OpenGL {
 //        VertexArray va;
 //        VertexBuffer vb;
 //        IndexBuffer ib;
-//        Shader shader;
+        unsigned int shader;
 
         void beginBatch();
     };
