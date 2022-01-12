@@ -21,8 +21,8 @@ Application::Application(int width, int height, const std::string& title)
 
     glfwSetKeyCallback(window, keyCallback);
 
-    context = new OpenGL::Context(window);
-    context->makeQuad();
+//    context = new OpenGL::Context(window);
+//    context->makeQuad();
 //    context->makeGrid(10, 100);
 }
 
@@ -39,7 +39,7 @@ void Application::run()
 
     while (!glfwWindowShouldClose(window))
     {
-        context->draw(camera);
+//        context->draw(camera);
         glfwPollEvents();
     }
 }

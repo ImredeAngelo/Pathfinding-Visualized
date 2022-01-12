@@ -5,7 +5,7 @@
 class Camera
 {
 public:
-    Camera();
+    Camera() = default;
 
     void move(float x, float y);
     void setProjection(int width, int height);

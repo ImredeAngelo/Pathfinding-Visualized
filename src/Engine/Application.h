@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Engine/OpenGL/Context.h>
 #include "Camera.h"
+#include <string>
 
 struct GLFWwindow;
 
@@ -17,7 +17,6 @@ public:
 private:
     int width, height;
 
-    OpenGL::Context* context;
     GLFWwindow* window;
     Camera camera;
 };

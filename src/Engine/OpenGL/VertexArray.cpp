@@ -12,10 +12,10 @@ namespace OpenGL {
         glDeleteVertexArrays(1, &rendererID);
     }
 
-    void VertexArray::addBuffer(const VertexBuffer *vertexBuffer, const VertexBufferLayout &layout)
+    void VertexArray::addBuffer(const VertexBuffer &vertexBuffer, const VertexBufferLayout &layout)
     {
         bind();
-        vertexBuffer->bind();
+        vertexBuffer.bind();
 
         const auto& elements = layout.getElements();
         unsigned int offset = 0;

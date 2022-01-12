@@ -1,3 +1,7 @@
+#pragma once
+
+#include <Engine/Camera.h>
+#include <Engine/Window.h>
 #include "VertexArray.h"
 #include "Shader.h"
 
@@ -9,9 +13,24 @@ namespace OpenGL {
     class Renderer
     {
     public:
-        void draw(const VertexArray* vertexArray, const IndexBuffer* indexBuffer, const Shader* shader) const;
-        void clear() const;
-        void drawSquare() const;
+        explicit Renderer(const Window&);
+        ~Renderer();
+
+        void beginFrame();
+        void endFrame();
+
+        void drawQuad(float x, float y, float size, unsigned int color);
+
+    private:
+        const Window& window;
+
+        Camera camera;
+//        VertexArray va;
+//        VertexBuffer vb;
+//        IndexBuffer ib;
+//        Shader shader;
+
+        void beginBatch();
     };
 }
 

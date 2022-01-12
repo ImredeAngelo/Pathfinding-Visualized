@@ -23,19 +23,19 @@ namespace OpenGL {
         glUseProgram(program);
     }
 
-    void Shader::setUniformColor4f(const std::string &name, Color color)
-    {
-        setUniform4f(name, color.r, color.g, color.b, 1.0f);
-    }
+//    void Shader::setUniformColor4f(const std::string &name, Color color)
+//    {
+//        setUniform4f(name, color.r, color.g, color.b, 1.0f);
+//    }
 
-    void Shader::setUniform4f(const std::string& name, float a, float b, float c, float d) const
-    {
-        int location = glGetUniformLocation(program, name.c_str());
-        if (location != -1)
-        {
-            glUniform4f(location, a, b, c, d);
-        }
-    }
+//    void Shader::setUniform4f(const std::string& name, float a, float b, float c, float d) const
+//    {
+//        int location = glGetUniformLocation(program, name.c_str());
+//        if (location != -1)
+//        {
+//            glUniform4f(location, a, b, c, d);
+//        }
+//    }
 
     void Shader::setUniformMat4(const std::string& name, const glm::mat4 matrix) const
     {

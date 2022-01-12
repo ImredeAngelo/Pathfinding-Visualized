@@ -2,20 +2,19 @@
 
 #include <string>
 #include <glm/mat4x4.hpp>
-#include <Util/Color.h>
 
 namespace OpenGL {
 
     class Shader
     {
     public:
-        explicit Shader(const std::string&& shader);
+        Shader(const std::string&& shader);
         ~Shader();
 
         void bind() const;
 
-        void setUniformColor4f(const std::string& name, Color color);
-        void setUniform4f(const std::string& name, float a, float b, float c, float d) const;
+//        void setUniformColor4f(const std::string& name, Color color);
+//        void setUniform4f(const std::string& name, float a, float b, float c, float d) const;
         void setUniformMat4(const std::string& name, glm::mat4 matrix) const;
 
     private:
