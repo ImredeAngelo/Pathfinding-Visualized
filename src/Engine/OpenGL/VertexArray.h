@@ -12,7 +12,7 @@ namespace OpenGL {
         VertexArray();
         ~VertexArray();
 
-        void addBuffer(const VertexBuffer&, const VertexBufferLayout&);
+        void addBuffer(const VertexBuffer*, const VertexBufferLayout&);
         void bind() const;
         void unbind();
 

@@ -10,7 +10,7 @@ constexpr size_t maxVertices = 4 * maxQuads;
 constexpr size_t maxIndices = 6 * maxQuads;
 
 OpenGL::Renderer::Renderer(const Window& window)
-    : window(window)//, vb(sizeof(Vertex)), shader("basic")
+    : window(window)
 {
     gladLoadGL();
     glClearColor(HEX_COLOR(0x9400D3), 1.0f);
@@ -18,6 +18,12 @@ OpenGL::Renderer::Renderer(const Window& window)
     // TODO: Maybe use OOP for shader
     shader = Shader::fromFile("basic");
     Shader::bind(shader);
+
+    // VAO
+//    glGenVertexArrays(1, &va);
+//    glBindVertexArray(va);
+    va = new VertexArray();
+    va->bind();
 
     // Indices always follow the same pattern
     uint32_t indices[maxIndices];
@@ -34,24 +40,29 @@ OpenGL::Renderer::Renderer(const Window& window)
         indices[i+5] = offset + 0;
     }
 
-//    ib = IndexBuffer(indices, maxIndices);
-//
-//    // Set layout
-//    VertexBufferLayout layout;
-//    layout.push<float>(2);
-//    layout.push<float>(3);
-//    va.addBuffer(vb, layout);
+    ib = new IndexBuffer(indices, maxIndices);
+    vb = new VertexBuffer(maxVertices * sizeof(Vertex));
+
+    ib->bind();
+    vb->bind();
+
+    VertexBufferLayout layout;
+    layout.push<float>(2);
+    layout.push<float>(3);
+    va->addBuffer(vb, layout);
 }
 
 OpenGL::Renderer::~Renderer()
 {
+    delete va;
+    delete vb;
+    delete ib;
     Shader::destroy(shader);
 }
 
 void OpenGL::Renderer::beginFrame()
 {
     glClear(GL_COLOR_BUFFER_BIT);
-//    shader.bind();
 
     // Set viewport
     int width, height;
@@ -69,16 +80,21 @@ void OpenGL::Renderer::beginFrame()
 
 void OpenGL::Renderer::endFrame()
 {
-    // ib.getCount()
-    glDrawElements(GL_TRIANGLES, 0, GL_UNSIGNED_INT, nullptr);
+    glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
 }
 
 void OpenGL::Renderer::drawQuad(float x, float y, float size, unsigned int color)
 {
+    if(indexCount >= maxIndices - 6)
+    {
+        endFrame();
+        beginBatch();
+    }
 
+//    indexCount += 6;
 }
 
 void OpenGL::Renderer::beginBatch()
 {
-
+    // Set base!
 }

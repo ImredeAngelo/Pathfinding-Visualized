@@ -22,11 +22,13 @@ namespace OpenGL {
 
     private:
         const Window& window;
-
         Camera camera;
-//        VertexArray va;
-//        VertexBuffer vb;
-//        IndexBuffer ib;
+
+        unsigned int indexCount;
+
+        VertexArray* va;
+        VertexBuffer* vb;
+        IndexBuffer* ib;
         unsigned int shader;
 
         void beginBatch();
