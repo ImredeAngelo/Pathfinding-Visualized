@@ -4,15 +4,6 @@
 #include <iostream>
 #include "Shader.h"
 
-//void setUniformMat4(const std::string& name, const glm::mat4 matrix) const
-//{
-//    int location = glGetUniformLocation(program, name.c_str());
-//    if (location != -1)
-//    {
-//        glUniformMatrix4fv(location, 1, GL_FALSE, &matrix[0][0]);
-//    }
-//}
-
 unsigned int compile(unsigned int type, const std::string &source)
 {
     unsigned int id = glCreateShader(type);
@@ -80,4 +71,13 @@ void OpenGL::Shader::bind(unsigned int program)
 void OpenGL::Shader::destroy(unsigned int program)
 {
     glDeleteProgram(program);
+}
+
+void OpenGL::Shader::setUniformMat4(unsigned int program, const std::string& name, const glm::mat4& matrix)
+{
+    int location = glGetUniformLocation(program, name.c_str());
+    if (location != -1)
+    {
+        glUniformMatrix4fv(location, 1, GL_FALSE, &matrix[0][0]);
+    }
 }

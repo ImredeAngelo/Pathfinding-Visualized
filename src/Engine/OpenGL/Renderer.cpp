@@ -3,7 +3,6 @@
 #include <glad/glad.h>
 #include <glm/gtx/transform.hpp>
 #include <Engine/OpenGL/OpenGLHeaders.h>
-#include <iostream>
 
 constexpr size_t maxQuads = 1000;
 constexpr size_t maxVertices = 4 * maxQuads;
@@ -13,7 +12,7 @@ OpenGL::Renderer::Renderer(const Window& window)
     : window(window)
 {
     gladLoadGL();
-    glClearColor(HEX_COLOR(0x9400D3), 1.0f);
+    glClearColor(HEX_COLOR(0x262626), 1.0f);
 
     // TODO: Maybe use OOP for shader if render is class OR make renderer procedural
     shader = Shader::fromFile("basic");
@@ -42,8 +41,8 @@ OpenGL::Renderer::Renderer(const Window& window)
         indices[i+1] = offset + 1;
         indices[i+2] = offset + 2;
 
-        indices[i+3] = offset + 3;
-        indices[i+4] = offset + 4;
+        indices[i+3] = offset + 2;
+        indices[i+4] = offset + 3;
         indices[i+5] = offset + 0;
     }
 
@@ -74,8 +73,8 @@ void OpenGL::Renderer::beginFrame()
     glViewport(0, 0, width, height);
 
     // TODO: Only update when camera moves?
-//    glm::mat4 model = glm::translate(glm::vec3(100, 100, 0));
-//    shader.setUniformMat4("u_MVP", camera.getViewMatrix() * model);
+    glm::mat4 model = glm::translate(glm::vec3(0, 0, 0));
+    Shader::setUniformMat4(shader, "u_MVP", camera.getViewMatrix() * model);
 
     beginBatch();
 }
@@ -86,12 +85,6 @@ void OpenGL::Renderer::endFrame()
 
     glBindVertexArray(va);
     glBufferSubData(GL_ARRAY_BUFFER, 0, size, buffer);
-
-    std::cout << "Drawing " << indexCount << " indices with size " << size << "\n\n";
-    for(int i = 0; i < indexCount/6*4; i++)
-    {
-        std::cout << "(" << buffer[i].position[0] << ", " << buffer[i].position[1] << ")\n";
-    }
 
     glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
 }

@@ -10,7 +10,7 @@ public:
     void move(float x, float y);
     void setProjection(int width, int height);
 
-    glm::mat4 getViewMatrix() const { return proj * view; };
+    glm::mat4 getViewMatrix() const { return proj; };
 
 private:
     glm::mat4 proj;
