@@ -3,6 +3,12 @@
 
 using namespace glm;
 
+Camera::Camera() : proj(), view(), pos()
+{
+    setProjection(1, 1);
+    move(0, 0);
+}
+
 // TODO: Camera bound to scene
 void Camera::move(float x, float y)
 {
