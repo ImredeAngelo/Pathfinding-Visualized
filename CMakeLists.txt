@@ -7,7 +7,7 @@ add_subdirectory (vendor/glfw)
 add_subdirectory (vendor/glad)
 add_subdirectory (vendor/glm)
 
-add_executable(AI src/main.cpp src/Pathfinding/AStar.cpp src/Pathfinding/AStar.h src/Math/Math.cpp src/Math/Math.h src/Core/MinHeap.h src/Core/Maze.cpp src/Core/Maze.h src/Core/Timer.cpp src/Core/Timer.h src/Pathfinding/Grid.cpp src/Pathfinding/Grid.h src/Engine/OpenGL/Context.cpp src/Engine/OpenGL/Context.h src/Engine/OpenGL/Renderer.cpp src/Engine/OpenGL/Renderer.h src/Engine/OpenGL/VertexBuffer.cpp src/Engine/OpenGL/VertexBuffer.h src/Engine/OpenGL/IndexBuffer.cpp src/Engine/OpenGL/IndexBuffer.h src/Engine/OpenGL/VertexArray.cpp src/Engine/OpenGL/VertexArray.h src/Engine/OpenGL/VertexBufferLayout.h src/Engine/OpenGL/VertexBufferLayout.cpp src/Engine/Application.cpp src/Engine/Application.h src/Engine/OpenGL/Shader.cpp src/Engine/OpenGL/Shader.h src/Util/Color.cpp src/Util/Color.h src/Engine/Camera.cpp src/Engine/Camera.h src/Engine/Vertex.h)
+add_executable(AI src/main.cpp src/Pathfinding/AStar.cpp src/Pathfinding/AStar.h src/Math/Math.cpp src/Math/Math.h src/Core/MinHeap.h src/Core/Maze.cpp src/Core/Maze.h src/Core/Timer.cpp src/Core/Timer.h src/Pathfinding/Grid.cpp src/Pathfinding/Grid.h src/Engine/OpenGL/Renderer.cpp src/Engine/OpenGL/Renderer.h src/Engine/Camera.cpp src/Engine/Camera.h src/Engine/Vertex.h src/Engine/Window.cpp src/Engine/Window.h src/Engine/OpenGL/OpenGLHeaders.h src/Engine/OpenGL/Shader.cpp src/Engine/OpenGL/Shader.h src/Pathfinding/Node.h src/Pathfinding/Maze.cpp src/Pathfinding/Maze.h)
 
 # Include resources
 FILE(COPY res DESTINATION .)

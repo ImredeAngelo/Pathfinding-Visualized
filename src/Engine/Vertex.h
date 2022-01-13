@@ -2,14 +2,18 @@
 
 struct Vertex
 {
-    float x, y;
-    float r, g, b, a;
+    glm::vec2 position = {};
+    glm::vec3 color = {};
 
-    Vertex(float x, float y, int color)
-        : x(x), y(y), a(1.0f)
+    Vertex() = default;
+
+    Vertex(const glm::vec2& position, unsigned int color)
+        : position(position), color({})
     {
-        r = (float) (color >> 16)/255;
-        g = (float)((color >> 8) & 0xFF)/255;
-        b = (float)((color & 0xFF))/255;
+        this->color[0] = (float)(color >> 16)/255;
+        this->color[1] = (float)((color >> 8) & 0xFF)/255;
+        this->color[2] = (float)(color & 0xFF)/255;
     }
+
+    Vertex(float x, float y, unsigned int color) : Vertex({ x, y }, color) {}
 };

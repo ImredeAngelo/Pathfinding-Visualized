@@ -3,10 +3,6 @@
 
 using namespace glm;
 
-Camera::Camera()
-    : pos(vec3(0, 0, 0)), view(translate(vec3(0, 0, 0)))
-{ }
-
 // TODO: Camera bound to scene
 void Camera::move(float x, float y)
 {
