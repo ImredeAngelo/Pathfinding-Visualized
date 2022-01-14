@@ -12,7 +12,7 @@ OpenGL::Renderer::Renderer(const Window& window)
     : window(window)
 {
     gladLoadGL();
-    glClearColor(HEX_COLOR(0x262626), 1.0f);
+    glClearColor(HEX_COLOR(0x1c1c1c), 1.0f);
 
     // TODO: Maybe use OOP for shader if render is class OR make renderer procedural
     shader = Shader::fromFile("basic");
