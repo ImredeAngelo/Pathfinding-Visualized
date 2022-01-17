@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Engine/Camera.h>
+#include <Core/Camera.h>
 #include <Engine/Window.h>
 #include <Engine/Vertex.h>
 
@@ -12,7 +12,7 @@ namespace OpenGL {
     class Renderer
     {
     public:
-        explicit Renderer(const Window&);
+        explicit Renderer(const Camera& camera);
         ~Renderer();
 
         void beginFrame();
@@ -20,9 +20,11 @@ namespace OpenGL {
 
         void drawQuad(float x, float y, float size, unsigned int color);
 
+        void onEvent(Event&);
+        void onWindowResize(WindowResizeEvent&);
+
     private:
-        const Window& window;
-        Camera camera;
+        const Camera& camera;
 
         unsigned int indexCount = 0;
 

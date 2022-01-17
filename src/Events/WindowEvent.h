@@ -2,26 +2,25 @@
 
 #include "Event.h"
 
-namespace Events {
+class WindowResizeEvent final : public Event
+{
+    EVENT_CLASS(WindowResizeEvent, WindowResize);
 
-    class WindowResizeEvent final : Event
-    {
-    public:
-        WindowResizeEvent(unsigned int width, unsigned int height)
-            : width(width), height(height) {}
+public:
+    WindowResizeEvent(int width, int height)
+        : width(width), height(height) {}
 
-        unsigned int GetWidth() const { return width; }
-        unsigned int GetHeight() const { return height; }
+    int getWidth() const { return width; }
+    int getHeight() const { return height; }
 
-    private:
-        unsigned int width, height;
-    };
+private:
+    int width, height;
+};
 
-    class WindowCloseEvent final : Event
-    {
-    public:
-        WindowCloseEvent() = default;
-    };
+class WindowCloseEvent final : public Event
+{
+    EVENT_CLASS(WindowCloseEvent, WindowClose);
 
-}
-
+public:
+    WindowCloseEvent() = default;
+};

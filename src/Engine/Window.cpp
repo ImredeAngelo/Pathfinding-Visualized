@@ -1,5 +1,8 @@
 #include <GLFW/glfw3.h>
 #include <cstdlib>
+#include <Events/Event.h>
+#include <Events/WindowEvent.h>
+#include <iostream>
 #include "Window.h"
 
 #define ERROR_INIT_GLFW     0xAA
@@ -24,7 +27,26 @@ Window::Window(unsigned int width, unsigned int height, const std::string& title
 
     glfwMakeContextCurrent(window);
 
-    registerKeyEvent(exitKeyCallback);
+    // GLFW Event Callbacks
+    glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height)
+    {
+        Events::dispatch(WindowResizeEvent(width, height));
+    });
+
+    glfwSetWindowCloseCallback(window, [](GLFWwindow* window)
+    {
+        Events::dispatch(WindowCloseEvent());
+    });
+
+//    glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
+//    {
+//        switch (action)
+//        {
+//            case GLFW_PRESS:    Events::dispatch(KeyPressEvent(key, 0)); break;
+//            case GLFW_REPEAT:   Events::dispatch(KeyPressEvent(key, 1)); break;
+//            case GLFW_RELEASE:  Events::dispatch(KeyReleaseEvent(key)); break;
+//        }
+//    });
 }
 
 Window::~Window()
@@ -39,24 +61,7 @@ void Window::update()
     glfwPollEvents();
 }
 
-void Window::getFramebufferSize(int &width, int &height) const
-{
-    glfwGetFramebufferSize(window, &width, &height);
-}
-
-void Window::registerKeyEvent(GLFWkeyfun callback)
-{
-    // TODO: Check if this only callbacks to a single function
-    glfwSetKeyCallback(window, callback);
-}
-
 int Window::shouldClose()
 {
     return glfwWindowShouldClose(window);
-}
-
-void Window::exitKeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
-{
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, GLFW_TRUE);
 }

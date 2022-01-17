@@ -1,26 +1,28 @@
-#include <vector>
 #include "Event.h"
+#include <deque>
 
-static std::vector<Events::Event> events;
+static auto listeners = std::vector<Events::CallbackFunction>();
+static auto q = std::vector<Event>();
 
-
-void Events::addCallback(const Events::Type &type)
+void Events::listen(Events::CallbackFunction func)
 {
-    // todo: register callbacks
+    listeners.emplace_back(func);
 }
 
-void Events::callEvent(const Events::Event &event)
+void Events::dispatch(Event&& event)
 {
-    events.emplace_back(event);
+    for(auto const& f : listeners)
+        f(event);
 }
 
 void Events::process()
 {
-    while(!events.empty())
+    while(!q.empty())
     {
-        const Event& e = events.front();
-        events.pop_back();
+        Event& event = q.back();
+        q.pop_back();
 
-        // call all callbacks registered under type
+        for(auto const& f : listeners)
+            f(event);
     }
 }
