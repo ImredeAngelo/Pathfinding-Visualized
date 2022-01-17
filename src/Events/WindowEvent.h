@@ -4,7 +4,7 @@
 
 class WindowResizeEvent final : public Event
 {
-    EVENT_CLASS(WindowResizeEvent, WindowResize);
+    EVENT_TYPE(WindowResize);
 
 public:
     WindowResizeEvent(int width, int height)
@@ -19,7 +19,7 @@ private:
 
 class WindowCloseEvent final : public Event
 {
-    EVENT_CLASS(WindowCloseEvent, WindowClose);
+    EVENT_TYPE(WindowClose);
 
 public:
     WindowCloseEvent() = default;

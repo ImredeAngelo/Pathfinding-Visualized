@@ -1,9 +1,12 @@
-## Pathfinding-Visualized
-Project for testing A* vs Jump Point Search (JPS) and Goal-Bounding. 
-Using OpenGL. Only tested on windows 10.
+# Pathfinding Visualized
+A simple tool for visualizing pathfinding algorithms on a 2D grid. 
+Made with OpenGL. Based on [Game AI Pro](http://www.gameaipro.com/).
 
-# Jump Point Search
+## Jump Point Search
 An extension of A* that should be a magnitude faster through node-pruning.
 
-# Goal-Bounding
-Pre-process a table. Calculations take a long time!
+## Goal Bounding
+Goal bounding is a pathfinding optimization technique that can speed up A* by roughly 
+eight times on a grid, however, it is applicable to any graph search space, including 
+waypoint graphs and navmeshes.
+
