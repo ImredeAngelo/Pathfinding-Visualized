@@ -4,8 +4,12 @@
 #include <Pathfinding/Grid.h>
 
 int main(int c, char** argv) {
-    Window window{1920, 1080, "Jump Point Search and Goal Bounding"};
-    OpenGL::Renderer renderer{window};
+    constexpr int w = 1920;
+    constexpr int h = 1080;
+
+    Window window{w, h, "Jump Point Search and Goal Bounding"};
+    Camera camera{w, h};
+    OpenGL::Renderer renderer{camera};
 
     Grid grid(100);
 
@@ -17,7 +21,9 @@ int main(int c, char** argv) {
             renderer.drawQuad(node.x * 100, node.y * 100, 95.0f, node.color);
 
         renderer.endFrame();
+
         window.update();
+        Events::process();
     }
 
     return 0;

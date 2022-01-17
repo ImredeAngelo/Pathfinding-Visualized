@@ -8,11 +8,12 @@ constexpr size_t maxQuads = 1000;
 constexpr size_t maxVertices = 4 * maxQuads;
 constexpr size_t maxIndices = 6 * maxQuads;
 
-OpenGL::Renderer::Renderer(const Window& window)
-    : window(window)
+OpenGL::Renderer::Renderer(const Camera& camera)
+    : camera(camera)
 {
+    // Load GL
     gladLoadGL();
-    glClearColor(HEX_COLOR(0x262626), 1.0f);
+    glClearColor(HEX_COLOR(0x1c1c1c), 1.0f);
 
     // TODO: Maybe use OOP for shader if render is class OR make renderer procedural
     shader = Shader::fromFile("basic");
@@ -53,6 +54,9 @@ OpenGL::Renderer::Renderer(const Window& window)
     // Quad Buffer
     buffer = new Vertex[maxVertices];
     bufferPtr = buffer;
+
+    // Register Events
+    EVENT_LISTENER(onEvent);
 }
 
 OpenGL::Renderer::~Renderer()
@@ -66,13 +70,6 @@ void OpenGL::Renderer::beginFrame()
 {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    // Set viewport
-    int width, height;
-    window.getFramebufferSize(width, height);
-    camera.setProjection(width, height);
-    glViewport(0, 0, width, height);
-
-    // TODO: Only update when camera moves?
     glm::mat4 model = glm::translate(glm::vec3(0, 0, 0));
     Shader::setUniformMat4(shader, "u_MVP", camera.getViewMatrix() * model);
 
@@ -120,4 +117,14 @@ void OpenGL::Renderer::beginBatch()
 {
     bufferPtr = buffer;
     indexCount = 0;
+}
+
+void OpenGL::Renderer::onEvent(Event& e)
+{
+    BIND_EVENT(e, WindowResizeEvent, onWindowResize);
+}
+
+void OpenGL::Renderer::onWindowResize(WindowResizeEvent& e)
+{
+    glViewport(0, 0, e.getWidth(), e.getHeight());
 }

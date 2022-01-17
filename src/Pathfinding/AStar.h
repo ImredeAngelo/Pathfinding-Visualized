@@ -1,8 +1,12 @@
 #pragma once
 
+#include "Node.h"
+
+typedef Node BaseNode;
+
 namespace AStar {
-    struct Node {
-        float x, y;
+    struct Node : public BaseNode {
+        // F/H Cost?
     };
 
     typedef float (*Heuristic)(const Node &current, const Node &goal);
