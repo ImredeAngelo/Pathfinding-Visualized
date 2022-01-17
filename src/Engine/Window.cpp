@@ -3,6 +3,7 @@
 #include <Events/Event.h>
 #include <Events/WindowEvent.h>
 #include <iostream>
+#include <Events/KeyEvent.h>
 #include "Window.h"
 
 #define ERROR_INIT_GLFW     0xAA
@@ -27,26 +28,20 @@ Window::Window(unsigned int width, unsigned int height, const std::string& title
 
     glfwMakeContextCurrent(window);
 
-    // GLFW Event Callbacks
-    glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height)
-    {
-        Events::dispatch(WindowResizeEvent(width, height));
-    });
+    // Event Callbacks
+    glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height) { Events::dispatch(WindowResizeEvent(width, height)); });
+    glfwSetWindowCloseCallback(window, [](GLFWwindow* window) { Events::dispatch(WindowCloseEvent()); });
 
-    glfwSetWindowCloseCallback(window, [](GLFWwindow* window)
+    glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
     {
-        Events::dispatch(WindowCloseEvent());
+        switch (action)
+        {
+            case GLFW_PRESS:    Events::dispatch(KeyPressEvent(key, 0)); break;
+            case GLFW_REPEAT:   Events::dispatch(KeyPressEvent(key, 1)); break;
+            case GLFW_RELEASE:  Events::dispatch(KeyReleaseEvent(key));  break;
+            default: return;
+        }
     });
-
-//    glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
-//    {
-//        switch (action)
-//        {
-//            case GLFW_PRESS:    Events::dispatch(KeyPressEvent(key, 0)); break;
-//            case GLFW_REPEAT:   Events::dispatch(KeyPressEvent(key, 1)); break;
-//            case GLFW_RELEASE:  Events::dispatch(KeyReleaseEvent(key)); break;
-//        }
-//    });
 }
 
 Window::~Window()
