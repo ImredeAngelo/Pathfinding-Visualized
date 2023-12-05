@@ -16,8 +16,8 @@ public:
 
     glm::mat4 getViewMatrix() const { return proj; };
 
-private:
     void move(float x, float y);
+private:
     void setProjection(int width, int height);
 
 private:
